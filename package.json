@@ -1,0 +1,27 @@
+{
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "name": "untitled1",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "body-parse": "^0.1.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "express-flash": "0.0.2",
+    "express-flash-messages": "^0.1.1",
+    "express-sessions": "^1.0.6",
+    "http-errors": "~1.6.3",
+    "jquery": "^3.4.1",
+    "mongoose": "^5.8.0",
+    "mongoose-unique-validator": "^2.0.3",
+    "morgan": "~1.9.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pug": "^2.0.4"
+  }
+}
