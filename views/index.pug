@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .jumbotron.text-center.bg-dark
+      h1.text-light Hi Mr. #{name}
+      ul.list-group
+          form.text-light.text-left(action='/users/update' method="POST")
+              .form-group
+                  label.font-weight-bolder(for='username') Username:
+                  input#username.form-control(type='text', value=username ,placeholder='Enter username', name='username', required='')
+                  //.valid-feedback Valid.
+                  .invalid-feedback Please fill out this field.
+              .form-group
+                  label.font-weight-bolder(for='password') Password:
+                  input#password.form-control(type='password', placeholder='Enter password', name='password', required='')
+                  //.valid-feedback Valid.
+                  .invalid-feedback Please fill out this field.
+              .form-group
+                  label.font-weight-bolder(for='name') name:
+                  input#name.form-control(type='text',value=name, placeholder='Enter name', name='name', required='')
+                  //.valid-feedback Valid.
+                  .invalid-feedback Please fill out this field.
+              .form-group
+                  label.font-weight-bolder(for='email') email:
+                  input#email.form-control(type='text',value=email, placeholder='Enter email', name='email', required='')
+                  //.valid-feedback Valid.
+                  .invalid-feedback Please fill out this field.
+              button.btn.btn-outline-light(type='submit') update
+  form.text-light.text-left(method="POST" action="/users/logout")
+    button.btn.btn-outline-dark(type='submit') logOut

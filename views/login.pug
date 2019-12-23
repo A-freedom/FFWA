@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    form.was-validated.container-fluid(action='/users/login' method="POST")
+        .form-group
+            label.font-weight-bolder(for='username') Username:
+            input#username.form-control(type='text', placeholder='Enter username', name='username', required='')
+            //.valid-feedback Valid.
+            .invalid-feedback Please fill out this field.
+        .form-group
+            label.font-weight-bolder(for='password') Password:
+            input#password.form-control(type='password', placeholder='Enter password', name='password', required='')
+            //.valid-feedback Valid.
+            .invalid-feedback Please fill out this field.
+        .form-group.form-check
+            label.font-weight-bolder.form-check-label
+                //input.form-check-input(type='checkbox', name='remember', required='')
+                //|  keep login .
+                ////.valid-feedback Valid.
+                //.invalid-feedback Check this checkbox to continue.
+        button.btn.btn-primary(type='submit') Submit
+
+
+        h6
+            br
+            a(href='/users/register')
+                I don't have an account
