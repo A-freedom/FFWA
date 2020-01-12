@@ -4,6 +4,7 @@ const authentication = require('../module/mid/auther.js');
 const passport = require('passport');
 const User = require('../module/db/db').user;
 const code = require('../module/code.js');
+const k9 = require('../module/k9')
 
 /* GET users listing. */
 router.get('/', authentication.checkAuthenticated, function (req, res) {
@@ -37,15 +38,7 @@ router.post('/register',authentication.checkNotAuthenticated ,(req, res) => {
     //     errorObject.password = 'is invalid'
     // }
     user.save((err) => {
-        if (err) {
-            for(const property in err.errors){
-                errorObject[property] = err.errors[property].message;
-            }
-            res.send(errorObject)
-        }else {
-            res.send(true);
-        }
-
+        k9.saveError(err,res)
     })
 });
 router.post('/logout', authentication.checkAuthenticated, (req, res) => {
@@ -60,7 +53,9 @@ router.post('/update', authentication.checkAuthenticated, (req, res) => {
         doc.password = code.decode(req.body.password);
         doc.name = req.body.name;
         doc.email = req.body.email;
-        doc.save();
+        doc.save((err)=>{
+            k9.saveError(err,res)
+        });
         res.redirect('/')
     });
 });

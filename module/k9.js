@@ -15,6 +15,23 @@ module.exports = {
             if (exit) process.exit(1);
         });
         return true;
+    },
+    saveError(err,res,dontSentInSuccsses){
+        const errorObject = {}
+        if (err) {
+            for(const property in err.errors){
+                errorObject[property] = err.errors[property].message;
+            }
+            res.send(errorObject)
+        }else {
+            if(!dontSentInSuccsses){
+                res.send(true);
+            }
+        }
+    },
+    findError:(err,result,res)=>{
+        if(err) return module.catch(err)
+        if(!result) res.send(404)
     }
 
 };
