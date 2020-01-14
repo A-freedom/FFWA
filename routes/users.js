@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const authentication = require('../module/mid/auther.js');
 const passport = require('passport');
-const User = require('../module/db/db').user;
+const userDB = require('../module/db').user;
 const code = require('../module/code.js');
 const k9 = require('../module/k9')
+const bookDB = require('../module/db').book
 
 /* GET users listing. */
 router.get('/', authentication.checkAuthenticated, function (req, res) {
@@ -28,17 +29,26 @@ router.post('/login', passport.authenticate('local', {
     failureRedirect: '/users/login',
     failureFlash: true
 }));
-router.post('/register',authentication.checkNotAuthenticated ,(req, res) => {
-    const user = new User(req.body);
+router.post('/register', authentication.checkNotAuthenticated, (req, res) => {
+    const user = new userDB(req.body);
     const errorObject = {};
     // password validate
     // if (code.validatePassword(req.body.password)){
-        user.password = code.decode(req.body.password);
+    user.password = code.decode(req.body.password);
     // }else {
     //     errorObject.password = 'is invalid'
     // }
-    user.save((err) => {
-        k9.saveError(err,res)
+    user.validate((err) => {
+        if (err) return k9.validateError(err, res)
+        const book = new bookDB()
+        book.save((err) => {
+            if (err) return k9.validateError(err, res)
+            user.book = book._id
+            user.save((err) => {
+                k9.validateError(err, res)
+
+            })
+        })
     })
 });
 router.post('/logout', authentication.checkAuthenticated, (req, res) => {
@@ -47,14 +57,14 @@ router.post('/logout', authentication.checkAuthenticated, (req, res) => {
 });
 router.post('/update', authentication.checkAuthenticated, (req, res) => {
     // const x = User.findByIdAndUpdate(req.body._id,req.body)
-    User.findById(req.user._id, function (err, doc) {
+    userDB.findById(req.user._id, function (err, doc) {
         if (err) console.log(err);
         doc.username = req.body.username;
         doc.password = code.decode(req.body.password);
         doc.name = req.body.name;
         doc.email = req.body.email;
-        doc.save((err)=>{
-            k9.saveError(err,res)
+        doc.save((err) => {
+            k9.validateError(err, res)
         });
         res.redirect('/')
     });

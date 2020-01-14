@@ -1,6 +1,6 @@
 var localStrategy = require('passport-local');
 var code = require('../code');
-var User = require('../db/db').user;
+var User = require('../db').user;
 var k9 = require('../k9');
 module.exports = (passport) => {
     const authenticateUser = async (username, password, done) => {

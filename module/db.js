@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema({
     },
     book:[mongoose.Schema.Types.ObjectId]
 });
+const bookSchema = new mongoose.Schema({
+    coustomers:mongoose.Schema.Types.ObjectId
+})
 const coustomerSchema = new mongoose.Schema({
     date: {type: Object, default: Date.now},
     name: {
@@ -39,14 +42,15 @@ const coustomerSchema = new mongoose.Schema({
         lowercase: true,
         required: [true, "can't be blank"],
     },
-    actions:[mongoose.Schema.Types.ObjectId]
+    actions: [mongoose.Schema.Types.ObjectId],
+    owner: mongoose.Schema.Types.ObjectId
 })
 const actionSchema = new mongoose.Schema({
     date: {type: Object, default: Date.now},
     value:{ type:Number },
     operationType:{ type:String , maxlength:20},
-    description:{type:String , maxlength:200,}
-    
+    description: { type: String, maxlength: 200, },
+    owner: mongoose.Schema.Types.ObjectId
 })
 mongoose.plugin(uniqueValidator, {message: 'is already taken.'});
 module.exports = {
@@ -58,5 +62,6 @@ module.exports = {
         details: {type: Object}
     })),
     coustomer:mongoose.model('coustomer',coustomerSchema),
-    action:mongoose.model('action',actionSchema)
+    action: mongoose.model('action', actionSchema),
+    book: mongoose.model('book',bookSchema)
 }

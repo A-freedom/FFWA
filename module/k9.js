@@ -1,4 +1,4 @@
-const ErrorDB = require('../module/db/db').error;
+const ErrorDB = require('./db').error;
 module.exports = {
     catch: (error, details, exit, callback) => {
         const paths = (new Error().stack).split('\n' + '    at ');
@@ -16,22 +16,16 @@ module.exports = {
         });
         return true;
     },
-    saveError(err,res,dontSentInSuccsses){
+    validateError(err, res) {
         const errorObject = {}
         if (err) {
-            for(const property in err.errors){
+            for (const property in err.errors) {
                 errorObject[property] = err.errors[property].message;
             }
             res.send(errorObject)
-        }else {
-            if(!dontSentInSuccsses){
-                res.send(true);
-            }
+        } else {
+                res.send(true)
         }
-    },
-    findError:(err,result,res)=>{
-        if(err) return module.catch(err)
-        if(!result) res.send(404)
     }
 
 };
